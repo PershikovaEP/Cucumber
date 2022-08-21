@@ -9,6 +9,8 @@ import ru.netology.page.DashboardPage;
 import ru.netology.page.LoginPage;
 import ru.netology.page.VerificationPage;
 
+import static com.codeborne.selenide.Selenide.open;
+
 
 public class TemplateSteps {
     private static LoginPage loginPage;
@@ -39,4 +41,21 @@ public class TemplateSteps {
     public void verifyCodeIsInvalid() {
         verificationPage.verifyCodeIsInvalid();
     }
+
+    @Пусть("пользователь залогинен с именем {string} и паролем {string}")
+    public void verification(String login, String password) {
+        open("http://localhost:9999");
+        loginPage.validLogin(login, password).validVerify("12345").verifyIsDashboardPage();
+    }
+
+    @Когда("пользователь переводит {string} рублей с карты с номером {string} на свою {string} карту с главной страницы")
+    public  void transfer(String amount,String number, String id) {
+        dashboardPage.transfer(amount, number, id);
+    }
+
+    @Тогда("баланс его {string} карты из списка на главной странице должен стать {string} рублей")
+    public void chekingBalance(String id, String balance) {
+        dashboardPage.chekingBalance(id, balance);
+    }
+
 }
