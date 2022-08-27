@@ -59,7 +59,9 @@ public class TemplateSteps {
 
     @Тогда("баланс его {string} карты из списка на главной странице должен стать {string} рублей")
     public void checkingBalance(String number, String amount) {
-        Assertions.assertEquals(Integer.valueOf(amount), dashboardPage.getCardBalance(number));
+        String expected = amount.replaceAll("\\s+", "");
+        int actual = dashboardPage.getCardBalance(number);
+        Assertions.assertEquals(Integer.parseInt(expected), actual);
     }
 
 
