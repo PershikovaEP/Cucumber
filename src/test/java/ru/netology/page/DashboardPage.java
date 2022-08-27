@@ -16,21 +16,17 @@ public class DashboardPage {
     private static ElementsCollection cards = $$(".list__item div");
     private static final String balanceStart = "баланс: ";
     private static final String balanceFinish = " р.";
-    private static ElementsCollection ids = $$("li div");
+
 
     public void verifyIsDashboardPage(){
         heading.shouldBe(visible);
     }
 
     public static int getCardBalance(String id) {
-        String text = null;
-        if (id == "1") {
-            text = cards.first().text();
-        }
-        if (id == "2") {
-            text = cards.last().text();
-        }
+        val text = cards.find(attribute("data-test-id", DataHelper.getCard(id).getId())).text();
         return extractBalance(text);
+
+
     }
 
     private static int extractBalance(String text) {
@@ -43,25 +39,12 @@ public class DashboardPage {
         return Integer.parseInt(value);
     }
 
-
-    public DashboardPage transfer(String amount, String number, String id) {
-        String numberId = null;
-        if (id == "1") {
-            numberId = ids.first().getAttribute("data-test-id");
-        }
-        if (id == "2") {
-            numberId = ids.last().getAttribute("data-test-id");
-        }
-        $("[data-test-id='" + numberId + "'] [data-test-id='action-deposit']").click();
-        $("[data-test-id='amount'] input").setValue(amount);
-        $("[data-test-id='from'] input").setValue(number);
-        $("[data-test-id='action-transfer']").click();
-        return new DashboardPage();
+    public TransferPage choosingACardToTopUpYourBalance(String id) {
+        $("[data-test-id='" + DataHelper.getCard(id).getId() + "'] [data-test-id='action-deposit']").click();
+        return new TransferPage();
     }
 
-    //    проверяем баланс
-    public void chekingBalance(String id, String balance) {
-        Assertions.assertEquals(getCardBalance(id),balance);
-    }
+
+
 
 }
