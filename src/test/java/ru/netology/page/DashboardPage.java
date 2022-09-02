@@ -22,14 +22,14 @@ public class DashboardPage {
         heading.shouldBe(visible);
     }
 
-    public static int getCardBalance(String id) {
+    public int getCardBalance(String id) {
         val text = cards.find(attribute("data-test-id", DataHelper.getCard(id).getId())).text();
         return extractBalance(text);
 
 
     }
 
-    private static int extractBalance(String text) {
+    private int extractBalance(String text) {
 //        val start = text.indexOf(balanceStart);
 //        val finish = text.indexOf(balanceFinish);
 //        val value = text.substring(start + balanceStart.length(), finish);
